@@ -5,5 +5,13 @@ let words = [];
 for(let i = 0 ; i<phrases.length; i++){
     words.push(phrases[i].split(" ").length);   
 }
+let rels;
 
-console.log(words);
+ rels = phrases.map(function(element){
+    
+     return element.length;
+ }
+);
+
+console.log(rels);
+// array.map
