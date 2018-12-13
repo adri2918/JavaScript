@@ -1,35 +1,39 @@
 const phrases = ["hola", "hola adri", "quiero una banana", "lorem ipsum dolor sit amet"];
 // let count_words = [];
 
+for(let i = 0 ; i<phrases.length; i++){
+    words.push(phrases[i].split(" ").length);   
+}
 
 
-// function countWords(phrase){// element (pasa el valor de la cada posicion de la array) index (es el número que representa la posición de element) array(el objeto entero)
-//     if (phrase === undefined || phrase === '') {
-//         return 0
-//     }
+// element (pasa el valor de la cada posicion de la array) index (es el número que representa la posición de element) array(el objeto entero)
+function countWords(phrase){
+    if (phrase === undefined || phrase === '') {
+        return 0
+    }
     
-//     return phrase.split(" ").length;
-// } 
+    return phrase.split(" ").length;
+} 
 
 
-// function countVowels(element)
-// {
-//     return element.split("").reduce((prev, char) => {
-//         if ("aeiou".indexOf(char) !==-1){
-//             return prev + 1
-//         }
+function countVowels(element)
+{
+    return element.split("").reduce((prev, char) => {
+        if ("aeiou".indexOf(char) !==-1){
+            return prev + 1
+        }
 
-//         return prev
-//     }, 0);
-// }
+        return prev
+    }, 0);
+}
 
-// console.log(countVowels("hola"))
+console.log(countVowels("hola"))
 
 
-// // array.map
-// count_words = phrases.map(countVowels);
+// array.map
+count_words = phrases.map(countVowels);
 
-// console.log(count_words);
+console.log(count_words);
 
 console.log(phrases.map(phrase => phrase.replace(/[^aeiou]/g, '').length))
 let count_vowels =  [];
