@@ -1,3 +1,4 @@
+const myCallbacks = require('./myCallbacks')
 const phrases = ["hola", "hola adri", "quiero una banana", "lorem ipsum dolor sit amet"];
 // let count_words = [];
 
@@ -48,4 +49,3 @@ count_vowels = phrases.map(function (element,index,array)
     });
     return inm;
 });
-console.log(count_vowels);
