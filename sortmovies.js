@@ -1,5 +1,4 @@
-const stdin = process.openStdin()
-
+const myCallbacks = require('./moviesFunction')
 const movies = [
     {
         info: {
@@ -23,47 +22,11 @@ const movies = [
         addedAt: "2012-01-30"
     }
 ]
-
+const stdin = process.openStdin()
 stdin.addListener("data", function(input) { 
     console.log("you entered: [" + input.toString().trim() + "]")
-    let aa = input.toString();
-    aa = aa.trim()
-    let minus = aa.toLowerCase();
-    console.log(`[${aa}]`);
-    if(aa === "title"){
-        let title = movies.sort(function comparar (a,b){
-            if(a.info.title > b.info.title){
-                return 1;
-            }else if(a.info.title < b.info.title){
-                return -1;
-            }else {
-                return 0;
-            }
-        });
-        console.log("Ordenado por title ", title);
-    }else if(aa === "rating"){
-        let rating = movies.sort(function (a,b){
-            if(a.info.rating < b.info.rating){
-                return 1;
-            }else if(a.info.rating > b.info.rating){
-                return -1;
-            }else{
-                return 0;
-            }
-        }
-        )
-        console.log("Ordenador por rating ",rating); 
-    }else{
-        let a = movies.sort(function (a,b){
-            if(a.addedAt < b.addedAt){
-                return 1;
-            }else if(a.addedAt > b.addedAt){
-                return -1;
-            }else{
-                return 0;
-            }
-        })
-        console.log(a); 
-    }
-   
+    input.toString().trim().toLowerCase();
+    console.log(`[${input}]`);
+    console.log(movies.sort(myCallbacks[input]))
 })
+
