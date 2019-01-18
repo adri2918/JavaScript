@@ -1,48 +1,54 @@
-let VOD = ["amazonMovies","amazonSeries","hbo","movistar","netflixA","netflixB","youtube"]
-let fail = [[[]],[[]]]
-let notPassed = [[],[]]
-notPassed.push([0,0])
+let VOD = ["amazonMovies","amazonSeries","hbo","movistar","netflixA","netflixB","youtube", "trololo"]
+let fail = [ ]
+let notPassed  = []
 const request = require('xhr-request')
 var moment = require('moment')
 request('https://www.jsonstore.io/07b9374305cb9173a5747bcb2ee571abb20b5d306c4908195dbd5f0b5ab64f9c/testResults', {
   json: true
 }, (err, data) => {
     let dates = [], nameVod = [[],[]] , resultVod =  [[],[]];
-    let a =0;
     for(let j = 0 ; j<data.result.allResults.length;j++){
         dates[j] = moment(data.result.allResults[j].date).format('dddd D MMMM HH:mm ')
-        nameVod[j] = Object.keys(data.result.allResults[j].results.vod)
-        resultVod[j] = Object.values(data.result.allResults[j].results.vod)
-        for(let i = 0; i<VOD.length;i++){
-            let contador = 0
-            let contador2 = 0
-            for(let u = 0;u<nameVod[j].length;u++){
-                if(VOD[i] === nameVod[j][u]){
-                    if(resultVod[j][u] === "FAIL"){
-                        if (typeof fail[j] === "undefined") {
-                            fail[j] = [];
-                        }
-                        fail[j][contador] = nameVod[j][u]
-                        u=100
+        if (typeof notPassed[j] === "undefined") {
+            notPassed[j] = [];
+        }
+        if (typeof fail[j] === "undefined") {
+            fail[j] = [];
+        }
+        if(data.result.allResults[j].results.vod === undefined){
+            for(let e = 0 ; e<VOD.length;e++){
+                notPassed[j][e] = VOD[e]
+            }
+        }else{
+            nameVod[j] = Object.keys(data.result.allResults[j].results.vod)
+            resultVod[j] = Object.values(data.result.allResults[j].results.vod)
+            for (let i = 0; i < VOD.length; i++) {
+                let contador = 0
+                let contador2 = 0
+                let found = false
+                for (let u = 0; u < nameVod[j].length && !found; u++) {
+                    if (VOD[i] === nameVod[j][u]) {
+                        if (resultVod[j][u] === "FAIL") {
+                            fail[j][contador] = nameVod[j][u]
+                        }   
                         contador++
-                    }else{
-                        u=100
-                        contador++
-                    }   
-                }else if(VOD[i] != nameVod[a][u] && u == (VOD.length-1)){
-                    if (typeof notPassed[a] === "undefined") {
-                        notPassed[a] = [];
+                        found = true
                     }
-                    notPassed[a][contador2] = VOD[i]
+                }
+
+                if (!found) {
+                    notPassed[j][contador2] = VOD[i]
                     contador2++
                 }
             }
+
+            console.log({notPassed, fail})
         }
-        a++
     }
     document.getElementById("selectView").innerHTML = selectView(data,dates)
-    document.getElementById('select').addEventListener('change', filterTestResults(fail,notPassed))
-
+    document.getElementById('select').addEventListener('change', () => {
+        filterTestResults(fail, notPassed)
+    })
 })
 function selectView(data,dates){
     let select = "<select id=\"select\">"
@@ -53,6 +59,7 @@ function selectView(data,dates){
     return select
 }
 function filterTestResults(fail, notPassed){
+    console.log('here')
     let option = document.getElementById("select").value
     let array = []
     option =+ option
