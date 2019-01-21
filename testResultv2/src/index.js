@@ -1,4 +1,4 @@
-let VOD = ["amazonMovies","amazonSeries","hbo","movistar","netflixA","netflixB","youtube", "trololo"]
+let VOD = ["amazonMovies","amazonSeries","hbo","movistar","netflixA","netflixB","youtube"]
 let fail = [ ]
 let notPassed  = []
 const request = require('xhr-request')
@@ -35,14 +35,11 @@ request('https://www.jsonstore.io/07b9374305cb9173a5747bcb2ee571abb20b5d306c4908
                         found = true
                     }
                 }
-
                 if (!found) {
                     notPassed[j][contador2] = VOD[i]
                     contador2++
                 }
             }
-
-            console.log({notPassed, fail})
         }
     }
     document.getElementById("selectView").innerHTML = selectView(data,dates)
@@ -59,21 +56,17 @@ function selectView(data,dates){
     return select
 }
 function filterTestResults(fail, notPassed){
-    console.log('here')
-    let option = document.getElementById("select").value
+    let option = parseInt(document.getElementById("select").value)
     let array = []
-    option =+ option
+    let max = 0
     for(let u=0;u<fail[option].length;u++){
         array[u] = fail[option][u]+" || FAIL"
         max = u+1
     }
-
-    for(let u=0;u<notPassed[option];u++){
+    for(let u=0;u<notPassed[option].length;u++){
         array[max] = notPassed[option][u]+" || NOT PASSED"
     }
-
     vodNotFunction(array)
-    
 }
 function vodNotFunction(a){
     if(a.length === 0){
@@ -82,4 +75,7 @@ function vodNotFunction(a){
         document.getElementById("mainDiv").style.backgroundColor = "red";
         document.getElementById("resultView").innerHTML = a;
     }
+}
+window.onload = () =>{
+    request
 }
