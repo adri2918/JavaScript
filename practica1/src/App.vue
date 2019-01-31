@@ -2,9 +2,9 @@
   <div id="app">
     <br>
     <div>{{mensaje}}</div>
-    <div>{{calcularPalabras}}</div>
-    <div>{{calcularLetras}}</div>
-    <div>{{calcularVocales}}</div>
+    <div>Calcular Palabras: {{calcularPalabras}}</div>
+    <div>Calcular Letras: {{calcularLetras}}</div>
+    <div>Calcular Vocales: {{calcularVocales}}</div>
     <br>
     <input v-model="mensaje">
   </div>
@@ -13,12 +13,25 @@
 <script>
 export default {
   name: 'app',
+  data(){
+    return {
+      mensaje: ''
+    }
+  },
+  created() {
+    console.log("creado!")
+    this.mensaje = new Date().toISOString()
+  },
   computed:{
-    calcularPalabras () {
+    calcularLetras () {
       return (this.mensaje).length
     },
-    calcularLetras () {
-      return (this.mensaje).split(" ").length
+    calcularPalabras () {
+      if ((this.mensaje).length === 0) {
+        return 0
+      } else {
+        return ((this.mensaje).trim().split(" ").length)
+      }
     },
     calcularVocales () {
       let vowels = ["a","e","i","o","u"]
